@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<head>
+    <title>Demo 1</title>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/jquery.lettering.js" type="text/javascript" charset="utf-8"></script>
+    <link href='http://fonts.googleapis.com/css?family=Oleo+Script' rel='stylesheet' type='text/css'>
+</head>
+ <style type="text/css">
+    .random-1 {
+        width:100%;
+        font-family: 'Oleo Script', cursive;
+        color:black;
+        font-size:3.5em;
+        height:2em;
+        text-align:center;
+    }
+    .random-1 [class*="char"]{
+        padding: 0.05em 0.1em 0.07em 0.02em;
+        border-bottom:black solid 1px;
+        text-align:center;
+    }
+
+    p {
+        text-align:center;
+    }
+ </style>
+<body>
+    <div class="container">
+        <h1 class="random-1">Refresh me now</h1>
+        <br />
+        <p>Refresh this page to see the title change</p>
+    </div>
+<script type="text/javascript" charset="utf-8">
+function HexToGreyscale(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    var r = parseInt(result[1], 16);
+    var g = parseInt(result[2], 16);
+    var b = parseInt(result[3], 16);
+    return (r+g+b)/3;
+
+}
+
+ $("document").ready( function() {
+    var colors = ["00757F", "67F2FF", "00E9FF", "18777F", "00BBCC"]; //Background colors
+    var forecolors = ["67F2FF", "18777F"]; //Foreground colors
+    var width_percentage = Math.floor(100/$(".random-1").text.length); //Percentage width of each character
+    $(".random-1").lettering(); //Break text up into individual letters
+
+    //Select each individual character and randomize background color
+    $("[class^=char]").each(function() {
+        if (!$.trim($(this).text())) {
+             $(this).css({"color" : "white", "background" : "white", "border-bottom": "none"});
+        }
+        else
+        {
+            console.log($.trim($(this).text()));
+           // $(this).css("width", width_percentage + "%");
+            var rnd = Math.floor(5*Math.random());
+            $(this).css("background", "#" + colors[rnd]);
+            //Set foreground color based on how dark background is
+            if (HexToGreyscale(colors[rnd]) > 128) {
+                //Light background
+                $(this).css("color", "#" + forecolors[1]);
+            }
+            else
+            {
+                //Dark background
+                $(this).css("color", "#" + forecolors[0]);
+            }
+        }
+
+
+
+    });
+
+
+ });
+
+
+</script>
+</body>
+
+</html>
